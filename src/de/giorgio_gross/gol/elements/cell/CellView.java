@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Giorgio Groß
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package de.giorgio_gross.gol.elements.cell;
 
 import de.giorgio_gross.gol.elements.View;
@@ -28,8 +52,8 @@ public class CellView extends View implements EnvironmentListener {
         drawEyes();
         drawMouth();
 
-        if(awakeJitter > 0 ) awakeJitter--;
-        if(sleepJitter > 0 ) sleepJitter--;
+        if (awakeJitter > 0) awakeJitter--;
+        if (sleepJitter > 0) sleepJitter--;
     }
 
     private void drawMouth() {
@@ -39,7 +63,7 @@ public class CellView extends View implements EnvironmentListener {
     }
 
     private void drawEyes() {
-        if(awakeJitter == 0 || sleepJitter > 0) {
+        if (awakeJitter == 0 || sleepJitter > 0) {
             getContext().fill(ColorManager.GetWhite().getRGB());
             getContext().stroke(ColorManager.GetBlack().getRGB());
 
@@ -72,7 +96,7 @@ public class CellView extends View implements EnvironmentListener {
 
     @Override
     public void onMorning() {
-        if(cell.isAlive()) {
+        if (cell.isAlive()) {
             awakeJitter = rand.nextInt(30);  // don't wake up simultaneously..
         } else {
             awakeJitter = 0;
@@ -82,7 +106,7 @@ public class CellView extends View implements EnvironmentListener {
 
     @Override
     public void onEvening() {
-        if(cell.isAlive()) {
+        if (cell.isAlive()) {
             sleepJitter = rand.nextInt(30);  // don't fall asleep simultaneously..
         } else {
             sleepJitter = 0;

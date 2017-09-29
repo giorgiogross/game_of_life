@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ * <p>
+ * Copyright (c) 2017 Giorgio Groß
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package de.giorgio_gross.gol.data;
 
 import de.giorgio_gross.gol.App;
@@ -11,8 +35,6 @@ public class CellStateManager implements EnvironmentListener {
 
     public CellStateManager() {
         states = new int[App.NUM_COLUMNS][App.NUM_ROWS - 1];  // filled with 0
-
-        states[5][5] = 1; // todo remove...
     }
 
     public CellState getState(int x, int y) {
@@ -36,7 +58,8 @@ public class CellStateManager implements EnvironmentListener {
 
                 for (int offX = 0; offX < 3; offX++) {
                     for (int offY = 0; offY < 3; offY++) {
-                        if (offX == 1 && offY == 1) continue;  // skip center of the 3x3 sub array we are looking at here
+                        if (offX == 1 && offY == 1)
+                            continue;  // skip center of the 3x3 sub array we are looking at here
 
                         if (negativeSum)
                             nbrsSum -= (states[(xs + offX) % states.length][(ys + offY) % states[0].length] > 0) ? 1 : 0;
