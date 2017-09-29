@@ -1,10 +1,14 @@
 package de.giorgio_gross.gol.elements;
 
 /**
- * Created by Giorgio on 27.09.17.
+ * Element which has a view, logic and click listener.
  */
 public abstract class Element implements OnClickListener {
     private View view;
+
+    public Element(View view) {
+        this.view = view;
+    }
 
     /**
      * Perform all activity associated with this element

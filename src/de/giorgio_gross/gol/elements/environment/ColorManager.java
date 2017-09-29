@@ -3,36 +3,53 @@ package de.giorgio_gross.gol.elements.environment;
 import java.awt.*;
 
 /**
- * Created by Giorgio on 28.09.17.
+ * Contains information about the color palette to be used by all rendered elements on the screen.
  */
-public class ColorManager {
-    private Color lineLight;
-    private Color lineDark;
-    private Color accentLight;
-    private Color accentDark;
+public final class ColorManager {
+    private static Color lineLight = new Color(0, 0, 0, 100);
+    private static Color lineDark = new Color(0, 0, 0, 255);
+    private static Color accentLight = new Color(0, 255, 255, 100);
+    private static Color accentDark = new Color(0, 255, 255, 255);
+    private static Color white = new Color(255, 255, 255, 255);
+    private static Color black = new Color(0, 0, 0, 255);
 
-    public ColorManager() {
-        
-    }
+    private static Color sunColor = new Color(255, 204, 0, 255);
+    private static Color moonColor = white;
 
-    public Color getLineLight() {
+    public static Color GetLineLight() {
         return lineLight;
     }
 
-    public Color getLineDark() {
+    public static Color GetLineDark() {
         return lineDark;
     }
 
-    public Color getAccentLight() {
+    public static Color GetAccentLight() {
         return accentLight;
     }
 
-    public Color getAccentDark() {
+    public static Color GetAccentDark() {
         return accentDark;
     }
 
-    protected void updatePalette() {
+    public static Color GetWhite() {
+        return white;
+    }
 
+    public static Color GetBlack() {
+        return black;
+    }
+
+    public static Color GetSunColor() {
+        return sunColor;
+    }
+
+    public static Color GetMoonColor() {
+        return moonColor;
+    }
+
+    protected static void UpdatePalette(float timeProgression) {
+        // todo
     }
 
 }
