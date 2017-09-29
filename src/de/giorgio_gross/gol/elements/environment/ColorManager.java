@@ -38,6 +38,7 @@ public final class ColorManager {
     private static Color white = new Color(255, 255, 255, 255);
     private static Color black = new Color(0, 0, 0, 255);
 
+    private static Color heartColor = new Color(204, 0, 0, 255);
     private static Color sunColor = new Color(255, 204, 0, 255);
     private static Color moonColor = white;
 
@@ -63,6 +64,10 @@ public final class ColorManager {
 
     public static Color GetBlack() {
         return black;
+    }
+
+    public static Color GetHeartColor() {
+        return heartColor;
     }
 
     public static Color GetSunColor() {

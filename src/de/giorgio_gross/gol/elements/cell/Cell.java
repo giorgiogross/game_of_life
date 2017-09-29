@@ -27,7 +27,6 @@ package de.giorgio_gross.gol.elements.cell;
 import de.giorgio_gross.gol.data.CellState;
 import de.giorgio_gross.gol.data.CellStateManager;
 import de.giorgio_gross.gol.elements.Element;
-import de.giorgio_gross.gol.elements.environment.EnvironmentListener;
 
 /**
  * Class which performs the logic required for one cell. E.g. fetching the cell state

@@ -29,6 +29,7 @@ import de.giorgio_gross.gol.elements.environment.ColorManager;
 import de.giorgio_gross.gol.elements.environment.EnvironmentListener;
 import processing.core.PApplet;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -38,6 +39,8 @@ public class CellView extends View implements EnvironmentListener {
     private Cell cell;
     private int awakeJitter = 0;  // render calls until we wake up
     private int sleepJitter = 0;  // render calls until we fall asleep
+    private int heartAnimationCycles = 0;  // render calls until heart is faded out
+    private int heartAlpha = 255;
     private Random rand;
 
     public CellView(int x, int y, int width, int height) {
@@ -47,13 +50,38 @@ public class CellView extends View implements EnvironmentListener {
 
     @Override
     public void render() {
-        if (!cell.isAlive()) return;
+        if (!cell.isAlive()){
+            heartAnimationCycles = 0;
+            return;
+        }
 
         drawEyes();
         drawMouth();
+        drawHeart();
 
         if (awakeJitter > 0) awakeJitter--;
         if (sleepJitter > 0) sleepJitter--;
+    }
+
+    private void drawHeart() {
+        if(heartAnimationCycles == 0) return;
+        if(heartAnimationCycles <= 15) heartAlpha -= 17;  // fade out
+
+        Color hc = ColorManager.GetHeartColor();
+        getContext().fill(hc.getRed(), hc.getGreen(), hc.getBlue(), heartAlpha);
+        getContext().noStroke();
+        getContext().alpha(heartAlpha);
+        heartAnimationCycles--;
+
+        getContext().ellipse(getX() + getWidth() * 4 / 5, getY() + getWidth() * 4 / 5, 6, 6);
+        getContext().ellipse(getX() + getWidth() * 4 / 5 + 6, getY() + getWidth() * 4 / 5, 6, 6);
+        getContext().triangle(
+                getX() + getWidth() * 4 / 5 - 3,
+                getY() + getWidth() * 4 / 5,
+                getX() + getWidth() * 4 / 5 + 9,
+                getY() + getWidth() * 4 / 5,
+                getX() + getWidth() * 4 / 5 + 3,
+                getY() + getWidth() * 4 / 5 + 6);
     }
 
     private void drawMouth() {
@@ -64,6 +92,7 @@ public class CellView extends View implements EnvironmentListener {
 
     private void drawEyes() {
         if (awakeJitter == 0 || sleepJitter > 0) {
+            // opened eyes
             getContext().fill(ColorManager.GetWhite().getRGB());
             getContext().stroke(ColorManager.GetBlack().getRGB());
 
@@ -73,6 +102,7 @@ public class CellView extends View implements EnvironmentListener {
             getContext().ellipse(getX() + getWidth() / 3, getY() + getHeight() / 3, 3, 3);
             getContext().ellipse(getX() + 2 * getWidth() / 3, getY() + getHeight() / 3, 3, 3);
         } else if (sleepJitter == 0 || awakeJitter > 0) {
+            // closed eyes
             getContext().stroke(ColorManager.GetBlack().getRGB());
             getContext().ellipse(getX() + getWidth() / 3, getY() + getHeight() / 3, getWidth() / 4, 1);
             getContext().ellipse(getX() + 2 * getWidth() / 3, getY() + getHeight() / 3, getWidth() / 4, 1);
@@ -83,6 +113,9 @@ public class CellView extends View implements EnvironmentListener {
     protected void performClickAction() {
         cell.toggleState();
 
+        // trigger heart animation
+        heartAnimationCycles = 45;
+        heartAlpha = 255;
     }
 
     public void setCell(Cell cell) {
