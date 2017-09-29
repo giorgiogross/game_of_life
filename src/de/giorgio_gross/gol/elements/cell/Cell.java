@@ -33,7 +33,12 @@ public class Cell extends Element {
         return state == CellState.ALIVE;
     }
 
-    void revive() {
+    void toggleState() {
+        if(state == CellState.ALIVE) {
+            csManager.kill(idx_x, idx_y);
+            return;
+        }
+
         csManager.revive(idx_x, idx_y);
     }
 

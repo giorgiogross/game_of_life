@@ -19,9 +19,9 @@ import java.util.ArrayList;
  */
 public class App extends PApplet implements EventProvider<OnClickListener> {
     /* global variables */
-    public static final int NUM_COLUMNS = 20;
-    public static final int NUM_ROWS = 10 + 1; // +1 for sun and moon simulation
-    public static final int MS_PER_CYCLE = 6000;  // 3s day, 3s night
+    public static final int NUM_COLUMNS = 32;
+    public static final int NUM_ROWS = 20 + 1; // +1 for sun and moon simulation
+    public static final int MS_PER_CYCLE = 4000;  // 3s day, 3s night
     private static App instance;
 
     /* private data */

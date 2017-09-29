@@ -39,12 +39,16 @@ public class EnvironmentView extends View {
         int moonPos = ((int) (dayProgress * day_cycle_width) + zenith) % day_cycle_width;
         int sunPos = (moonPos + sun_moon_distance) % day_cycle_width;
 
-        getContext().background(0);
+        getContext().background(ColorManager.GetBackground().getRGB());
+        getContext().fill(ColorManager.GetLineDark().getRGB());
+        getContext().rect(0, 0, getWidth(), simulationHeight);
+
         drawMoon(moonPos);
         drawSun(sunPos);
         drawZenithMarker();
         drawGrid();
 
+        getContext().fill(ColorManager.GetAccentLight().getRGB());
         getContext().textSize(32);
         getContext().text(env.getDayCount().toString(), 10, 30);
     }
@@ -56,7 +60,7 @@ public class EnvironmentView extends View {
 
     private void drawGrid() {
         getContext().noFill();
-        getContext().stroke(ColorManager.GetAccentLight().getRGB());
+        getContext().stroke(ColorManager.GetLineLight().getRGB());
         // vertical
         for(int i = 1; i < App.NUM_COLUMNS; i++) {
             getContext().line(i * cellWidth, simulationHeight, i * cellWidth, getContext().height);
@@ -84,7 +88,7 @@ public class EnvironmentView extends View {
         getContext().fill(ColorManager.GetMoonColor().getRGB());
         getContext().ellipse(x, simulationHeight / 2, simulationHeight / 4, simulationHeight / 4);
 
-        getContext().fill(ColorManager.GetBlack().getRGB());
+        getContext().fill(ColorManager.GetLineDark().getRGB());
         getContext().ellipse(x + simulationHeight / 15, simulationHeight / 2, simulationHeight / 6, simulationHeight / 6);
     }
 }

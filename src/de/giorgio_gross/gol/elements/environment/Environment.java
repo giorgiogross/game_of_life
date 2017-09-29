@@ -38,6 +38,7 @@ public class Environment extends Element implements EventProvider<EnvironmentLis
         long cTime = System.currentTimeMillis();
         long curCycleTime = (cTime- offsetTime) % App.MS_PER_CYCLE;
         dayProgression = (float) curCycleTime / (float) App.MS_PER_CYCLE;
+        ColorManager.UpdatePalette(dayProgression);
 
         // check if a new day began while tolerating differences in fps
         int updDayCount = (int) ((cTime - startTime) / App.MS_PER_CYCLE);

@@ -51,11 +51,11 @@ public class CellStateManager implements EnvironmentListener {
         // set cell state based on number of neighbours
         for (int x = 0; x < states.length; x++) {
             for (int y = 0; y < states[0].length; y++) {
-                if (states[x][y] > 0 && states[x][y] < 2) states[x][y] = 0;
-                else if (states[x][y] > 0 && (states[x][y] == 2 || states[x][y] == 3)) states[x][y] = 1;
-                else if (states[x][y] > 0 && states[x][y] > 3) states[x][y] = 0;
-                else if (states[x][y] < 0 && Math.abs(states[x][y]) == 3) states[x][y] = 1;
-                else states[x][y] = 0;  // default to dead
+                if (states[x][y] > 0 && states[x][y] < 2) kill(x, y);
+                else if (states[x][y] > 0 && (states[x][y] == 2 || states[x][y] == 3)) revive(x, y);
+                else if (states[x][y] > 0 && states[x][y] > 3) kill(x, y);
+                else if (states[x][y] < 0 && Math.abs(states[x][y]) == 3) revive(x, y);
+                else kill(x, y);  // default to dead
             }
         }
     }
@@ -73,5 +73,10 @@ public class CellStateManager implements EnvironmentListener {
     public void revive(int x, int y) {
         if (x >= states.length || y >= states[0].length) throw new IllegalArgumentException();
         states[x][y] = 1;
+    }
+
+    public void kill(int x, int y) {
+        if (x >= states.length || y >= states[0].length) throw new IllegalArgumentException();
+        states[x][y] = 0;
     }
 }

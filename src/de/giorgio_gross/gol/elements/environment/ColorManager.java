@@ -8,8 +8,9 @@ import java.awt.*;
 public final class ColorManager {
     private static Color lineLight = new Color(0, 0, 0, 100);
     private static Color lineDark = new Color(0, 0, 0, 255);
-    private static Color accentLight = new Color(0, 255, 255, 100);
-    private static Color accentDark = new Color(0, 255, 255, 255);
+    private static Color accentLight = new Color(51, 153, 255, 255);
+    private static Color accentDark = new Color(0, 51, 102, 255);
+    private static Color background = new Color(255, 255, 255, 255);
     private static Color white = new Color(255, 255, 255, 255);
     private static Color black = new Color(0, 0, 0, 255);
 
@@ -48,8 +49,13 @@ public final class ColorManager {
         return moonColor;
     }
 
+    public static Color GetBackground() {
+        return background;
+    }
+
     protected static void UpdatePalette(float timeProgression) {
-        // todo
+        int val = (int) (102 * (-1) * Math.cos(timeProgression * 2 * Math.PI)) + 152;  // simulate darkness and light
+        background = new Color(val, val, val, 255);
     }
 
 }
