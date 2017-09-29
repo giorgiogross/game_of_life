@@ -45,7 +45,7 @@ public class Environment extends Element implements EventProvider<EnvironmentLis
             // a new day began!
 
             // inform listeners
-            for (EnvironmentListener l : listeners) l.onMorning();
+            for (EnvironmentListener l : listeners) l.onMidnight();
 
             // reset all day cycle variables
             dayCount = updDayCount;
@@ -70,7 +70,7 @@ public class Environment extends Element implements EventProvider<EnvironmentLis
         listeners.add(eventListener);
     }
 
-    public Integer getDayCount() {
+    Integer getDayCount() {
         return dayCount;
     }
 }

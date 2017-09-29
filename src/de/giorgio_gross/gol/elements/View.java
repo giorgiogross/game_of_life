@@ -23,6 +23,22 @@ public abstract class View {
         context = App.getInstance();
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public PApplet getContext() {
         return context;
     }
@@ -33,8 +49,13 @@ public abstract class View {
     public abstract void render();
 
     public boolean onClick(int x, int y) {
-        return (x <= this.x + this.width && x >= this.x
-                && y >= this.y && y <= this.y + this.height);
+        if(x <= this.x + this.width && x >= this.x
+                && y >= this.y && y <= this.y + this.height) {
+            performClickAction();
+            return true;
+        }
+        return false;
     }
 
+    protected abstract void performClickAction();
 }

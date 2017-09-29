@@ -3,6 +3,8 @@ package de.giorgio_gross.gol;
 import de.giorgio_gross.gol.data.CellStateManager;
 import de.giorgio_gross.gol.elements.Element;
 import de.giorgio_gross.gol.elements.OnClickListener;
+import de.giorgio_gross.gol.elements.cell.Cell;
+import de.giorgio_gross.gol.elements.cell.CellView;
 import de.giorgio_gross.gol.elements.environment.Environment;
 import de.giorgio_gross.gol.elements.environment.EnvironmentView;
 import processing.core.PApplet;
@@ -19,7 +21,7 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
     /* global variables */
     public static final int NUM_COLUMNS = 20;
     public static final int NUM_ROWS = 10 + 1; // +1 for sun and moon simulation
-    public static final int MS_PER_CYCLE = 10000;  // 5s day, 5s night
+    public static final int MS_PER_CYCLE = 6000;  // 3s day, 3s night
     private static App instance;
 
     /* private data */
@@ -71,12 +73,29 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
         env = new Environment(envView);
         envView.setEnvironment(env);
 
+        // init cell state manager
         csManager = new CellStateManager();
         env.register(csManager);
 
-        // todo init cells
-        // create and bind cell to its view
         sceneElements = new ArrayList<Element>();
+        clickListeners = new ArrayList<OnClickListener>();
+
+        // init cells
+        int cellHeight = height / App.NUM_ROWS;
+        int cellWidth = width / App.NUM_COLUMNS;
+        for (int idx_x = 0; idx_x < NUM_COLUMNS; idx_x++) {
+            for (int idx_y = 0; idx_y < NUM_ROWS - 1; idx_y++) {
+                // create and bind cell to its view
+                CellView cv = new CellView(idx_x * cellWidth, (idx_y + 1) * cellHeight, cellWidth, cellHeight);
+                Cell c = new Cell(cv, csManager, idx_x, idx_y);
+                cv.setCell(c);
+
+                env.register(cv);  // environment listener
+                this.register(c);  // click listener
+
+                sceneElements.add(c);
+            }
+        }
     }
 
     @Override
@@ -98,7 +117,7 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
     @Override
     public void mouseClicked() {
         for (OnClickListener cl : clickListeners) {
-            if(cl.onClick(mouseX, mouseY)) {
+            if (cl.onClick(mouseX, mouseY)) {
                 return;
             }
         }

@@ -49,6 +49,11 @@ public class EnvironmentView extends View {
         getContext().text(env.getDayCount().toString(), 10, 30);
     }
 
+    @Override
+    protected void performClickAction() {
+        // none
+    }
+
     private void drawGrid() {
         getContext().noFill();
         getContext().stroke(ColorManager.GetAccentLight().getRGB());
@@ -74,7 +79,12 @@ public class EnvironmentView extends View {
     }
 
     private void drawMoon(int x) {
+        getContext().noStroke();
+
         getContext().fill(ColorManager.GetMoonColor().getRGB());
         getContext().ellipse(x, simulationHeight / 2, simulationHeight / 4, simulationHeight / 4);
+
+        getContext().fill(ColorManager.GetBlack().getRGB());
+        getContext().ellipse(x + simulationHeight / 15, simulationHeight / 2, simulationHeight / 6, simulationHeight / 6);
     }
 }

@@ -8,7 +8,7 @@ import de.giorgio_gross.gol.elements.environment.EnvironmentListener;
 /**
  * Class which performs the logic required for one cell. E.g. fetching the cell state
  */
-public class Cell extends Element implements EnvironmentListener {
+public class Cell extends Element {
     private CellStateManager csManager;
 
     private int idx_x;
@@ -29,22 +29,12 @@ public class Cell extends Element implements EnvironmentListener {
         state = csManager.getState(idx_x, idx_y);
     }
 
-    @Override
-    public void onMidnight() {
-        // no action
-    }
-
-    @Override
-    public void onMorning() {
-
-    }
-
-    @Override
-    public void onEvening() {
-
-    }
-
-    protected boolean isAlive() {
+    boolean isAlive() {
         return state == CellState.ALIVE;
     }
+
+    void revive() {
+        csManager.revive(idx_x, idx_y);
+    }
+
 }
