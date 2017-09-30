@@ -40,7 +40,7 @@ public class CellView extends View implements EnvironmentListener {
     private int awakeJitter = 0;  // render calls until we wake up
     private int sleepJitter = 0;  // render calls until we fall asleep
     private int heartAnimationCycles = 0;  // render calls until heart is faded out
-    private int heartAlpha = 255;
+    private int heartAlpha = 255;  // color alpha
     private Random rand;
 
     public CellView(int x, int y, int width, int height) {
@@ -50,7 +50,7 @@ public class CellView extends View implements EnvironmentListener {
 
     @Override
     public void render() {
-        if (!cell.isAlive()){
+        if (!cell.isAlive()) {
             heartAnimationCycles = 0;
             return;
         }
@@ -64,8 +64,8 @@ public class CellView extends View implements EnvironmentListener {
     }
 
     private void drawHeart() {
-        if(heartAnimationCycles == 0) return;
-        if(heartAnimationCycles <= 15) heartAlpha -= 17;  // fade out
+        if (heartAnimationCycles == 0) return;
+        if (heartAnimationCycles <= 15) heartAlpha -= 17;  // fade out
 
         Color hc = ColorManager.GetHeartColor();
         getContext().fill(hc.getRed(), hc.getGreen(), hc.getBlue(), heartAlpha);
@@ -73,21 +73,18 @@ public class CellView extends View implements EnvironmentListener {
         getContext().alpha(heartAlpha);
         heartAnimationCycles--;
 
-        getContext().ellipse(getX() + getWidth() * 4 / 5, getY() + getWidth() * 4 / 5, 6, 6);
-        getContext().ellipse(getX() + getWidth() * 4 / 5 + 6, getY() + getWidth() * 4 / 5, 6, 6);
-        getContext().triangle(
-                getX() + getWidth() * 4 / 5 - 3,
-                getY() + getWidth() * 4 / 5,
-                getX() + getWidth() * 4 / 5 + 9,
-                getY() + getWidth() * 4 / 5,
-                getX() + getWidth() * 4 / 5 + 3,
-                getY() + getWidth() * 4 / 5 + 6);
+        getContext().ellipse(getX() + getWidth() * 4 / 5, getY() + getHeight() * 4 / 5, 6, 6);
+        getContext().ellipse(getX() + getWidth() * 4 / 5 + 6, getY() + getHeight() * 4 / 5, 6, 6);
+        getContext().triangle(getX() + getWidth() * 4 / 5 - 3, getY() + getHeight() * 4 / 5,
+                getX() + getWidth() * 4 / 5 + 9, getY() + getHeight() * 4 / 5,
+                getX() + getWidth() * 4 / 5 + 3, getY() + getHeight() * 4 / 5 + 6);
     }
 
     private void drawMouth() {
         getContext().noFill();
         getContext().stroke(ColorManager.GetBlack().getRGB());
-        getContext().arc(getX() + getWidth() / 2, getY() + getHeight() / 2, 2 * getHeight() / 3, 2 * getHeight() / 3, 0, PApplet.PI);
+        getContext().arc(getX() + getWidth() / 2, getY() + getHeight() / 2,
+                2 * getHeight() / 3, 2 * getHeight() / 3, 0, PApplet.PI);
     }
 
     private void drawEyes() {
@@ -95,9 +92,9 @@ public class CellView extends View implements EnvironmentListener {
             // opened eyes
             getContext().fill(ColorManager.GetWhite().getRGB());
             getContext().stroke(ColorManager.GetBlack().getRGB());
-
             getContext().ellipse(getX() + getWidth() / 3, getY() + getHeight() / 3, getWidth() / 4, getWidth() / 4);
             getContext().ellipse(getX() + 2 * getWidth() / 3, getY() + getHeight() / 3, getWidth() / 4, getWidth() / 4);
+
             getContext().fill(ColorManager.GetBlack().getRGB());
             getContext().ellipse(getX() + getWidth() / 3, getY() + getHeight() / 3, 3, 3);
             getContext().ellipse(getX() + 2 * getWidth() / 3, getY() + getHeight() / 3, 3, 3);

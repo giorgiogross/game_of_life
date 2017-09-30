@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2017 Giorgio Groß
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,18 +39,40 @@ import java.util.ArrayList;
  * Root class for the Game of Live App. Here happens initialization, kick off of rendering, management of UI's and
  * delegation of sprite rendering.
  */
-public class App extends PApplet implements EventProvider<OnClickListener> {
+public class App extends PApplet {
     /* global variables */
     public static final int NUM_COLUMNS = 32;
     public static final int NUM_ROWS = 20 + 1; // +1 for sun and moon simulation
-    public static final int MS_PER_CYCLE = 7000;  // 3.5s day, 3.5s night
-    private static App instance;
+    public static final int MAX_MS_PER_CYCLE = 20000;  // max 20sec day cycle
+    public static final int MIN_MS_PER_CYCLE = 400;  // min 400ms day cycle
+    public static final int DELTA_MS_PER_CYCLE = 400;  // manipulate in +/- 400ms steps
 
     /* private data */
-    private ArrayList<OnClickListener> clickListeners;
-    private ArrayList<Element> sceneElements;
+    private int msPerCycle = 8000;  // default is 4s day, 4s night
+    private static App instance;
+
+    private ArrayList<OnClickListener> clickListeners = new ArrayList<OnClickListener>();
+    private ArrayList<OnSettingsChangedListener> settingsListeners = new ArrayList<OnSettingsChangedListener>();
+    private ArrayList<Element> sceneElements = new ArrayList<Element>();
     private Environment env;
-    private CellStateManager csManager;
+
+    /* event providers */
+    private EventProvider<OnClickListener> clickProvider = new EventProvider<OnClickListener>() {
+
+        @Override
+        public void register(OnClickListener eventListener) {
+            clickListeners.add(eventListener);
+        }
+
+    };
+    private EventProvider<OnSettingsChangedListener> settingsChangedProvider = new EventProvider<OnSettingsChangedListener>() {
+
+        @Override
+        public void register(OnSettingsChangedListener eventListener) {
+            settingsListeners.add(eventListener);
+        }
+
+    };
 
     /**
      * Don't fully implement singleton pattern with private constructor to allow PApplet to instantiate App.
@@ -92,15 +114,13 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
     private void initDataStructures() {
         // create and bind environment to its view
         EnvironmentView envView = new EnvironmentView(0, 0, width, height);
-        env = new Environment(envView);
+        env = new Environment(envView, msPerCycle);
+        settingsChangedProvider.register(env);
         envView.setEnvironment(env);
 
         // init cell state manager
-        csManager = new CellStateManager();
+        CellStateManager csManager = new CellStateManager();
         env.register(csManager);
-
-        sceneElements = new ArrayList<Element>();
-        clickListeners = new ArrayList<OnClickListener>();
 
         // init cells
         int cellHeight = height / App.NUM_ROWS;
@@ -113,7 +133,7 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
                 cv.setCell(c);
 
                 env.register(cv);  // environment listener
-                this.register(c);  // click listener
+                clickProvider.register(c);  // click listener
 
                 sceneElements.add(c);
             }
@@ -137,6 +157,20 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
     }
 
     @Override
+    public void keyTyped() {
+        if (key == '-' && msPerCycle < MAX_MS_PER_CYCLE) {  // + looks like things becoming slower to the user
+            msPerCycle += DELTA_MS_PER_CYCLE;
+        }
+        if (key == '+' && msPerCycle > MIN_MS_PER_CYCLE) {  // + looks like things becoming faster to the user
+            msPerCycle -= DELTA_MS_PER_CYCLE;
+        }
+
+        for(OnSettingsChangedListener l : settingsListeners) {
+            l.onSetDayCycle(msPerCycle);
+        }
+    }
+
+    @Override
     public void mouseClicked() {
         for (OnClickListener cl : clickListeners) {
             if (cl.onClick(mouseX, mouseY)) {
@@ -145,8 +179,4 @@ public class App extends PApplet implements EventProvider<OnClickListener> {
         }
     }
 
-    @Override
-    public void register(OnClickListener eventListener) {
-        clickListeners.add(eventListener);
-    }
 }

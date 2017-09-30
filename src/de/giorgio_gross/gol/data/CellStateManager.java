@@ -42,7 +42,7 @@ public class CellStateManager implements EnvironmentListener {
         int midX = App.NUM_COLUMNS / 2 - 1;
         int midY = App.NUM_ROWS / 2 - 1;
 
-        if(midX > 2 && midY > 2) {
+        if (midX > 2 && midY > 2) {
             // initialize sample (Small Exploder)
             states[midX][midY - 1] = ALIVE;
             states[midX][midY] = ALIVE;
@@ -89,7 +89,7 @@ public class CellStateManager implements EnvironmentListener {
                             nbrsSum += (states[(xs + offX) % states.length][(ys + offY) % states[0].length] > 0) ? 1 : 0;
                     }
                 }
-                if(nbrsSum == 0 && states[x][y] == ALIVE) nbrsSum = ALIVE_ZERO_NBRS;
+                if (nbrsSum == 0 && states[x][y] == ALIVE) nbrsSum = ALIVE_ZERO_NBRS;
                 states[x][y] = nbrsSum;
             }
         }
@@ -97,7 +97,7 @@ public class CellStateManager implements EnvironmentListener {
         // set cell state based on number of neighbours
         for (int x = 0; x < states.length; x++) {
             for (int y = 0; y < states[0].length; y++) {
-                if(states[x][y] == ALIVE_ZERO_NBRS) states[x][y] = 0; // override with 0 neighbours
+                if (states[x][y] == ALIVE_ZERO_NBRS) states[x][y] = 0; // override with 0 neighbours
 
                 if (states[x][y] > 0 && states[x][y] < 2) kill(x, y);
                 else if (states[x][y] > 0 && (states[x][y] == 2 || states[x][y] == 3)) revive(x, y);

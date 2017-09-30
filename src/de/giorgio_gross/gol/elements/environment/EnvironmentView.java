@@ -73,8 +73,8 @@ public class EnvironmentView extends View {
         drawGrid();
 
         getContext().fill(ColorManager.GetAccentLight().getRGB());
-        getContext().textSize(30);
-        getContext().text(env.getDayCount().toString(), 10, 30);
+        getContext().textSize(simulationHeight - 4);
+        getContext().text(env.getTotalDayCount().toString(), 10, simulationHeight - 4);
     }
 
     @Override
@@ -104,10 +104,14 @@ public class EnvironmentView extends View {
     private void drawSun(int x) {
         getContext().fill(ColorManager.GetSunColor().getRGB());
         getContext().stroke(ColorManager.GetSunColor().getRGB());
-        getContext().line(x - simulationHeight / 4, simulationHeight / 2, x + simulationHeight / 4, simulationHeight /2);
-        getContext().line(x, simulationHeight / 2 - simulationHeight / 4, x, simulationHeight / 2 + simulationHeight /4);
-        getContext().line(x - simulationHeight / 5, simulationHeight / 2 - simulationHeight / 5, x + simulationHeight / 5, simulationHeight / 2 + simulationHeight / 5);
-        getContext().line(x + simulationHeight / 5, simulationHeight / 2 - simulationHeight / 5, x - simulationHeight / 5, simulationHeight / 2 + simulationHeight / 5);
+        getContext().line(x - simulationHeight / 4, simulationHeight / 2,
+                x + simulationHeight / 4, simulationHeight / 2);
+        getContext().line(x, simulationHeight / 2 - simulationHeight / 4,
+                x, simulationHeight / 2 + simulationHeight / 4);
+        getContext().line(x - simulationHeight / 5, simulationHeight / 2 - simulationHeight / 5,
+                x + simulationHeight / 5, simulationHeight / 2 + simulationHeight / 5);
+        getContext().line(x + simulationHeight / 5, simulationHeight / 2 - simulationHeight / 5,
+                x - simulationHeight / 5, simulationHeight / 2 + simulationHeight / 5);
         getContext().ellipse(x, simulationHeight / 2, simulationHeight / 4, simulationHeight / 4);
     }
 
