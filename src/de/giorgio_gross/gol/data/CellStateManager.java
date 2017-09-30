@@ -28,7 +28,7 @@ import de.giorgio_gross.gol.App;
 import de.giorgio_gross.gol.elements.environment.EnvironmentListener;
 
 /**
- * Stores, maintains and transfers the state of each cell. Game of Life roules are implemented in here.
+ * Stores, maintains and transfers the state of each cell. Game of Life rules are implemented in here.
  */
 public class CellStateManager implements EnvironmentListener {
     private final int DEAD = 0;

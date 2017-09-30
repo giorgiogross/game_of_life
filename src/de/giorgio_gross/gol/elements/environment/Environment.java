@@ -24,7 +24,6 @@
 
 package de.giorgio_gross.gol.elements.environment;
 
-import de.giorgio_gross.gol.App;
 import de.giorgio_gross.gol.EventProvider;
 import de.giorgio_gross.gol.OnSettingsChangedListener;
 import de.giorgio_gross.gol.elements.Element;
