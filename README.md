@@ -12,7 +12,7 @@ In contrast to several other implementations I chose not to offer functions like
 show off an understandable and neat presentation of the game of life.
 
 #### How To Run
-I added the .jar file to this git repo so that you can launch it easily. However, to work with the code in an IDE head
+I added the .jar file to this git repo on branch '[jar](https://github.com/ordsen/game_of_life/tree/jar)' so that you can launch it easily. However, to work with the code in an IDE head
 over to [Processing.org](https://www.processing.org), download the newest version of Processing and add the core.jar as
 library to your IDE project (located in ~/Processing/Contents/Java/core.jar).
 
